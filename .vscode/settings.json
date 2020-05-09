@@ -1,0 +1,18 @@
+{
+  "eslint.run": "onSave",
+  "[scss]": {
+    "editor.formatOnSave": true
+  },
+  "vetur.format.enable": false,
+  "editor.formatOnSave": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "[html]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": false
+    }
+  }
+}
+{
+}
