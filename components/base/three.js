@@ -86,3 +86,31 @@ function animate(time) {
   Base.controls.update();
   requestAnimationFrame(animate);
 }
+
+// helper functions
+export const rgbToVec = (r, g, b, a = 1) => {
+  const alpha = normalize(0, 1, a);
+  let rgb = [normalize(0, 255, r), normalize(0, 255, g), normalize(0, 255, b)];
+
+  rgb = rgb.map(c => Math.round((c / 255) * 10) / 10);
+  const vec = [...rgb, alpha];
+
+  return new THREE.Vector4(vec[0], vec[1], vec[2], vec[3]);
+};
+
+export const hexToVec = (hex, a = 1) => {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+
+  return rgbToVec(
+    parseInt(result[1], 16),
+    parseInt(result[2], 16),
+    parseInt(result[3], 16),
+    a
+  );
+};
+
+function normalize(min, max, value) {
+  if (value < min) return min;
+  else if (value > max) return max;
+  else return value;
+}
