@@ -3,7 +3,7 @@ import {
   Base,
   init,
   render,
-  rgbToVec,
+  // rgbToVec,
   hexToVec
 } from '@/components/base/three.js';
 import vertexShader from '@/components/circle-wave/vertex.frag';
@@ -30,13 +30,14 @@ const colors = [
   '#82baeb'
 ];
 console.log(hexToVec(colors[0]));
+console.log('colors length', colors.length);
 
 init(document.getElementById('main'));
 
 // draw
 
 // define material
-const material = function(delay) {
+const material = function(delay, color) {
   return new THREE.ShaderMaterial({
     wireframe: true,
     uniforms: {
@@ -44,7 +45,7 @@ const material = function(delay) {
       // mycolor: { type: 'v3', value: new THREE.Vector4(1, delay / 10, 0, 1) },
       mycolor: {
         type: 'v3',
-        value: rgbToVec(255, 102, 204)
+        value: color
       },
       time: {
         type: 'f',
@@ -57,12 +58,23 @@ const material = function(delay) {
 };
 
 // create geometry
-for (let i = 0; i < 20; i++) {
-  const geometry = new THREE.CylinderGeometry(20, 20, 0.05, 100, 1, true);
+let color_key = 0;
+for (let i = 0; i < 50; i++) {
+  if (color_key >= colors.length - 1) {
+    color_key = 0;
+  } else {
+    color_key++;
+  }
+  console.log(i, colors.length - 1, colors[color_key]);
 
-  const mesh = new THREE.Mesh(geometry, material(i));
+  const geometry = new THREE.CylinderGeometry(20, 20, 0.05, 150, 1, true);
 
-  mesh.position.y = i / 1;
+  const mesh = new THREE.Mesh(
+    geometry,
+    material(i, hexToVec(colors[color_key]))
+  );
+
+  mesh.position.y = i / 1.2;
   mesh.scale.x = 1 + i / 1000;
   mesh.scale.z = 1 + i / 1000;
   mesh.rotation.y = Math.random(0, i) / 100;
